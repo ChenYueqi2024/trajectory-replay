@@ -13,6 +13,9 @@ function paint() {
   el('time').setAttribute('aria-valuetext',el('clock').textContent);
   el('current').textContent=cm(s.error);el('rms').textContent=cm(result.rms);
   el('relative').textContent=s.step===null?'首帧':cm(s.step);
+  const referenceX = (s.frame.p[0] * 100).toFixed(2);
+  const estimateX = (s.estimate[0] * 100).toFixed(2);
+  el('calculation').textContent = `第 ${index+1} 帧 · 参考 X 为 ${referenceX} cm，模拟 X 为 ${estimateX} cm。Y、Z 相同，两点距离为 ${cm(s.error)}。`;
   el('prev').disabled=index===0;el('next').disabled=index===frames.length-1;
   pathPlot(el('paths'),result.samples,index,el('plane').value);
   errorPlot(el('errors'),result.samples,index,+el('size').value/100);
@@ -22,7 +25,14 @@ function recalculate() {
   const mode=el('mode').value, aligned=el('align').checked, size=+el('size').value;
   result=experiment(frames,mode,size/100,aligned);
   el('size').disabled=mode==='clean';el('amount').textContent=(mode==='clean'?0:size)+' cm';
-  const notes={offset:aligned?'对齐后，固定平移在每一帧都被抵消。':'两条路径的形状相同。试试对齐起点，看看固定偏差还剩多少。',drift:'误差从起点逐步积累。即使首帧重合，终点仍会分开。',bump:'偏移只发生在中间一段。定位误差峰值，看看它出现在哪一帧。',clean:'估计位置与参考位置逐帧重合，三维位置误差为零。'};
+  const rules = {
+    offset: `每帧的 X 坐标都加 ${size} cm。试着勾选、再取消「对齐起点」，对比位置误差和相邻帧的位移差。`,
+    drift: `偏移量 = ${size} cm × 已过去的时间比例。首帧加 0，走过一半时间加 ${cm(size/200)}，最后一帧加 ${size} cm。点「播放」观察两点分开。`,
+    bump: `走到全程时间的 40% 才开始偏移，58% 时设定偏移达 ${size} cm，76% 时回到原轨迹。点「定位最大误差」看最接近峰值的采样帧。`,
+    clean: '直接采用每一帧的参考位置。拖动时间轴，观察两点重合时三个指标的读数。'
+  };
+  el('rule').textContent = rules[mode];
+  const notes={offset:aligned?'起点对齐减去了整段共有的平移量，所以各帧的位置误差都为零。':'每帧都偏同样的距离，相邻两帧的偏移会相互抵消。位置可以偏很多，每一步仍能走对。',drift:'对齐只能消除起点的偏移。后来逐步积累的偏差仍会出现在曲线上。',bump:'短时偏移结束后，终点可以完全重合。只检查终点会漏掉中途这次定位偏差。',clean:'估计位置与参考位置逐帧重合，三维位置误差为零。'};
   el('explain').textContent=size===0 && mode!=='clean'?'偏移幅度为零，两条轨迹完全重合。':notes[mode];
   paint();
 }
