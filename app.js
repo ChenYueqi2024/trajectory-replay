@@ -73,6 +73,16 @@ async function start() {
   el('errors').onclick=e=>seek(nearestFrame(frames,timeFraction(el('errors'),e.clientX)*frames.at(-1).t));
   for(const id of ['mode','size','align']) el(id).addEventListener('input',recalculate);
   el('plane').onchange=paint;
+  for (const link of document.querySelectorAll('[data-replay]')) {
+    link.addEventListener('click', () => {
+      el('mode').value=link.dataset.replay;
+      el('size').value=30;
+      el('align').checked=false;
+      recalculate();
+      seek(result.peak);
+      el('mode').focus({preventScroll:true});
+    });
+  }
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
   new ResizeObserver(paint).observe(el('paths'));
   recalculate();

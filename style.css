@@ -21,3 +21,42 @@
   .metrics div { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 0 10px; border-bottom: 1px solid #d2ded2; }
   .metrics small { grid-column: 1 / -1; }
 }
+.read-links,.route-nav {display:flex;flex-wrap:wrap;gap:8px 18px;margin:0 0 18px}
+.read-links a,.route-nav a,.try-mode {font-weight:600;text-underline-offset:4px}
+.atlas {margin:42px auto 26px;scroll-margin-top:14px}
+.atlas>h2 {max-width:24em;font-size:clamp(1.7rem,3.7vw,2.75rem);line-height:1.22;letter-spacing:-.035em}
+.atlas h3 {margin:30px 0 8px;font-size:clamp(1.25rem,2.4vw,1.65rem);line-height:1.38}
+.atlas p {line-height:1.75;margin:.5em 0}
+.atlas>p {max-width:58em}
+.case-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0 28px}
+.error-case,.chapter,.field-note {background:#fff;border:1px solid #bfcec4;border-radius:12px;}
+.error-case {padding:14px 18px;display:flex;flex-direction:column;align-items:flex-start}
+.case-head {display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%}
+.case-head h4 {font-size:1.13rem;margin:0}
+.case-head svg {width:100px;height:36px}
+.mini-axis {fill:none;stroke:#8a9d92;stroke-width:2}
+.mini-trace {fill:none;stroke:#a54919;stroke-width:3}
+.citations {display:block;color:#506058;font-size:.9rem;line-height:1.8;margin:5px 0;overflow-wrap:anywhere}
+.try-mode {margin-top:auto;padding-top:8px}
+.route-nav {padding:12px 0}
+.chapter {margin:12px 0;overflow:hidden;scroll-margin-top:12px}
+.chapter-intro {display:grid;grid-template-columns:1fr minmax(240px,32%);gap:26px;align-items:center;padding:18px 22px}
+.chapter .period {font-size:.9rem;font-weight:650;color:#39604d;margin:0}
+.chapter h4 {font-size:clamp(1.2rem,2vw,1.6rem);margin:4px 0 6px;line-height:1.4}
+.chapter figure {padding:4px;border:1px solid #d4e0d3;border-radius:8px;background:#f3f7ef}
+.chapter img {display:block;width:100%;height:auto;max-height:175px}
+.chapter details {margin:0;border-top:1px solid #d4e0d3}
+.chapter summary {padding:12px 22px;color:#145b49;background:#f6f9f4}
+.approach {margin:0 22px;padding:14px 0;border-top:1px solid #d4e0d3}
+.approach:first-of-type {border-top:0}
+.approach h5 {font-size:1.08rem;margin:0}
+.field-note {padding:18px 22px;background:#eaf2e9}
+.field-note h3 {margin:0}
+@media(max-width:650px){
+  .case-grid,.chapter-intro {grid-template-columns:1fr}
+  .chapter-intro {gap:8px;padding:14px}
+  .chapter summary {padding:12px 14px}
+  .approach {margin:0 14px}
+  .case-grid {gap:8px}
+  .chapter img {height:150px}
+}
